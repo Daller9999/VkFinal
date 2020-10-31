@@ -10,5 +10,6 @@ public class ApplicationInit extends Application {
     @Override public void onCreate() {
         super.onCreate();
         VKSdk.initialize(this);
+        // VKSdk.customInitialize(getApplicationContext(), 7325313, "5.124");
     }
 }

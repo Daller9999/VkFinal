@@ -42,9 +42,10 @@ public class ThreadAlbumLoader extends ThreadRunners {
             VKRequest vkRequest = new VKRequest("photos.getAlbums",
                     VKParameters.from(VKApiConst.OWNER_ID, Integer.valueOf(VKAccessToken.currentToken().userId), "need_system", 1, "need_covers", 1, "offset", offset, "count", count));
             vkRequest.executeWithListener(vkRequestListener);
+            wait = true;
             try {
                 while (wait)
-                    sleep(50);
+                    sleep(200);
             } catch (InterruptedException ex) {
                 //
             }
@@ -97,6 +98,8 @@ public class ThreadAlbumLoader extends ThreadRunners {
         @Override
         public void onError(VKError error) {
             super.onError(error);
+            wait = false;
+            Log.e("mesUri", error.toString());
         }
     };
 
