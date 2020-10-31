@@ -18,6 +18,7 @@ import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
+import com.vk.sdk.util.VKUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
+        String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
+        Log.e("mesUri", fingerprints[0]);
 
         String[] permissions = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -38,10 +40,12 @@ public class MainActivity extends AppCompatActivity {
         String[] otherPermissions = {VKScope.PHOTOS, VKScope.DOCS};
         if (!VKSdk.isLoggedIn())
             VKSdk.login(this, otherPermissions);
-        ViewPager viewPager = findViewById(R.id.viewPager);
-        viewPager.setOffscreenPageLimit(2);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
+        else {
+            ViewPager viewPager = findViewById(R.id.viewPager);
+            viewPager.setOffscreenPageLimit(2);
+            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+            viewPager.setAdapter(adapter);
+        }
         Log.e("mesUri", "api is : " + VKSdk.getApiVersion());
     }
 
@@ -52,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResult(VKAccessToken res) {
                 // Пользователь успешно авторизовался
+                ViewPager viewPager = findViewById(R.id.viewPager);
+                viewPager.setOffscreenPageLimit(2);
+                ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+                viewPager.setAdapter(adapter);
             }
 
             @Override
